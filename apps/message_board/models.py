@@ -23,6 +23,6 @@ class Comment(models.Model):
     commentor = models.ForeignKey(
         User, related_name="comments_made_by", on_delete=models.CASCADE)
     post = models.ForeignKey(
-        Message, related_name="post_comments", on_delete=models.CASCADE)
+        Message, related_name="posted_comments", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -49,3 +49,22 @@ def register(request):
 
     if request.POST['password'] != request.POST['confirm_password']:
         error = True
+        messages.error(
+            request, "Passowrds must match!")
+
+    if User.objects.filter(email=request.POST['email']):
+        error = True
+        messages.error(
+            request, "User already exists!")
+
+    if error:
+        return redirect('/')
+
+    hashed = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
+    decoded_hash = hashed.decode('utf-8')
+
+    user = User.objects.create(
+        first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=decoded_hash)
+    print(user)
+    request.session['u_id'] = user.u_id
+    return redirect('/message_board')

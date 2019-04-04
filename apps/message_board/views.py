@@ -70,8 +70,32 @@ def register(request):
     return redirect('/board')
 
 
+def login(request):
+    pass
+
+
 def board(request):
     context = {
         'posts': Message.objects.all()
     }
     return render(request, "message_board/board.html", context)
+
+
+def post(request):
+    pass
+
+
+def comment(request):
+    pass
+
+
+def deleteMessage(request):
+    pass
+
+
+def deleteComment(request):
+    pass
+
+
+def logout(request):
+    pass

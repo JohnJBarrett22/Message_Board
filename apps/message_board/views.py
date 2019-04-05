@@ -97,12 +97,15 @@ def board(request):
 def post(request):
     Message.objects.create(message=request.POST['message'], messager=User.objects.get(
         id=request.session['u_id']))
+    print(request.POST['message'])
     return redirect('/board')
 
 
 def comment(request):
     Comment.objects.create(comment=request.POST['comment'], commentor=User.objects.get(
         id=request.session['u_id']), post=Message.objects.get(id=request.POST['post_id']))
+    print(request.POST['comment'])
+    return redirect('/board')
 
 
 def deleteMessage(request, id):

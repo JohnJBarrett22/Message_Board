@@ -94,7 +94,9 @@ def board(request):
 
 
 def post(request):
-    pass
+    Message.objects.create(message=request.POST['message'], messager=User.objects.get(
+        id=request.session['u_id']))
+    return redirect('/board')
 
 
 def comment(request):
@@ -110,4 +112,5 @@ def deleteComment(request):
 
 
 def logout(request):
-    pass
+    request.session.clear()
+    return redirect('/')

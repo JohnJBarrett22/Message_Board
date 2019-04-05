@@ -71,7 +71,19 @@ def register(request):
 
 
 def login(request):
-    pass
+    user_list = User.objects.filter(email=request.POST['email'])
+    if not user_list:
+        messages.error(request, "Invalid credentials!")
+        return redirect('/')
+
+    user = user_list[0]
+
+    if bcrypt.checkpw(request.POST['password'].encode(), user.password.encode()):
+        request.session['u_id'] = user.id
+        request.session['u_fname'] = user.first_name
+        return redirect('/wall')
+    else:
+        messages.error(request, "Invalid credentials!")
 
 
 def board(request):

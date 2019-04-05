@@ -29,14 +29,14 @@
         {% for post in posts reversed %}
         <h3 id="postdetails">{{post.messager.first_name}} {{post.messager.last_name}} -
             {{post.created_at|date:'F jS Y'}} {% if post.messager.id == request.session.u_id %} <a
-                href="/delmsg/{{post.id}}"><button>Delete</button></a> {% endif %}</h3>
+                href="/deleteMessage/{{post.id}}"><button>Delete</button></a> {% endif %}</h3>
         <p id="post">{{post.message}}</p>
         <p id="micro">...posted {{post.created_at|timesince}} ago.</p>
         {% for comment in post.post_comments.all %}
         <h4 id="commentdetails">{{comment.commentor.first_name}} {{comment.commentor.last_name}} -
             {{comment.created_at|date:'F jS Y'}}</h4>
         <p id="comment">{{comment.comment}} {% if comment.commentor.id == request.session.u_id %} <a
-                href="/delcom/{{comment.id}}"><button>Delete</button></a> {% endif %}</p>
+                href="/deleteComment/{{comment.id}}"><button>Delete</button></a> {% endif %}</p>
         <p id="micro">...posted {{comment.created_at|timesince}} ago.</p>
 
 

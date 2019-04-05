@@ -81,7 +81,7 @@ def login(request):
     if bcrypt.checkpw(request.POST['password'].encode(), user.password.encode()):
         request.session['u_id'] = user.id
         request.session['u_fname'] = user.first_name
-        return redirect('/wall')
+        return redirect('/board')
     else:
         messages.error(request, "Invalid credentials!")
 
@@ -100,15 +100,18 @@ def post(request):
 
 
 def comment(request):
-    pass
+    Comment.objects.create(comment=request.POST['comment'], commentor=User.objects.get(
+        id=request.session['u_id']), post=Message.objects.get(id=request.POST['post_id']))
 
 
-def deleteMessage(request):
-    pass
+def deleteMessage(request, id):
+    Message.objects.get(id=id).delete()
+    return redirect('/board')
 
 
-def deleteComment(request):
-    pass
+def deleteComment(request, id):
+    Comment.objects.get(id=id).delete()
+    return redirect('/board')
 
 
 def logout(request):

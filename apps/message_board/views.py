@@ -12,7 +12,7 @@ def index(request):
 
 def register(request):
     error = False
-    if len(request.POST['first_name']) < 2:
+    if len(request.POST['first_name']) < 3:
         error = True
         messages.error(
             request, "First name must be a minimum length of three characters!")
@@ -22,7 +22,7 @@ def register(request):
         messages.error(
             request, "First name cannot have a number in it or be blank!")
 
-    if len(request.POST['last_name']) < 2:
+    if len(request.POST['last_name']) < 3:
         error = True
         messages.error(
             request, "Last name must be a minimum of three characters!")
@@ -67,6 +67,7 @@ def register(request):
         first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=decoded_hash)
     print(user)
     request.session['u_id'] = user.id
+    request.session['u_fname'] = user.first_name
     return redirect('/board')
 
 

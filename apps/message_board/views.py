@@ -85,6 +85,7 @@ def login(request):
         return redirect('/board')
     else:
         messages.error(request, "Invalid credentials!")
+        return redirect('/')
 
 
 def board(request):

@@ -5,50 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Message Board</title>
 </head>
 
 <body>
     <div id="header">
         <h1>Message Board</h1>
         <a href="logout">
-            <p id="logout">Log Off</p>
+            <p>Log Off</p>
         </a>
-        <h3 id="name">Welcome {{request.session.u_fname}}</h3>
+        <h3>Welcome {{request.session.u_fname}}</h3>
     </div>
     <div id="container">
-        <div id="top">
+        <div>
             <h2>Post a message:</h2>
             <form action="/post" method="post">
                 {% csrf_token %}
-                <textarea id="messagebox" name="message" row="3" cols="80"></textarea>
+                <textarea name="message" row="3" cols="80"></textarea>
                 <input type="hidden" name="id" value="request.session['u_id']">
-                <input id="msgbtn" type="submit" value="Post a message!">
+                <input type="submit" value="Post a message!">
             </form>
         </div>
         {% for post in posts reversed %}
         <h3 id="postdetails">{{post.messager.first_name}} {{post.messager.last_name}} -
             {{post.created_at|date:'F jS Y'}} {% if post.messager.id == request.session.u_id %} <a
                 href="/deleteMessage/{{post.id}}"><button>Delete</button></a> {% endif %}</h3>
-        <p id="post">{{post.message}}</p>
-        <p id="micro">...posted {{post.created_at|timesince}} ago.</p>
-        {% for comment in post.post_comments.all %}
-        <h4 id="commentdetails">{{comment.commentor.first_name}} {{comment.commentor.last_name}} -
-            {{comment.created_at|date:'F jS Y'}}</h4>
-        <p id="comment">{{comment.comment}} {% if comment.commentor.id == request.session.u_id %} <a
+        <p>{{post.message}}</p>
+        <p>...posted {{post.created_at|timesince}} ago.</p>
+
+        {% for comment in post.posted_comments.all %}
+        <h4>{{comment.commentor.first_name}} {{comment.commentor.last_name}} - {{comment.created_at|date:'F jS Y'}}</h4>
+        <p>{{comment.comment}} {% if comment.commentor.id == request.session.u_id %}<a
                 href="/deleteComment/{{comment.id}}"><button>Delete</button></a> {% endif %}</p>
-        <p id="micro">...posted {{comment.created_at|timesince}} ago.</p>
-
-
+        <p>...posted {{comment.created_at|timesince}} ago.</p>
         {% endfor %}
-        <div id="cmtdiv">
-            <h3 id="cmtheader">Post a comment:</h3>
+
+        <div>
+            <h3>Post a comment:</h3>
             <form action="/comment" method="post">
                 {% csrf_token %}
-                <input id="commentbox" type="textarea" name="comment" row="1">
+                <input type="textarea" name="comment" row="1">
                 <input type="hidden" name="id" value="request.session['u_id']">
                 <input type="hidden" name="post_id" value="{{post.id}}">
-                <input id="cmtbtn" type="submit" value="Post a comment!">
+                <input type="submit" value="Post a comment!">
             </form>
         </div>
         {% endfor %}
